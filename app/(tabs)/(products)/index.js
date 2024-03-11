@@ -9,7 +9,7 @@ import { UserContext } from "../../../context/UserProvider";
 import axios from "axios";
 
 export default function Books() {
-  const { name, logged } = useContext(UserContext);
+  const { name, logged, promocode } = useContext(UserContext);
   const [allBooks, setAllBooks] = useState([]);
   const [userBooks, setUserBooks] = useState([]);
   const [products, setProducts] = useState([]);
@@ -91,7 +91,12 @@ export default function Books() {
                       </Text>
                     </View>
                     <View style={globalStyles.bookboxRight}>
-                      <Text style={globalStyles.numCopies}>{item.price}</Text>
+                      <Text style={globalStyles.numCopies}>
+                        {promocode.data === "PROMO10"
+                          ? Math.round(item.price * 0.9 * 10) / 10
+                          : item.price}
+                        €
+                      </Text>
                     </View>
                   </View>
                 </Pressable>

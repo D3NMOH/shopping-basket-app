@@ -5,15 +5,24 @@ export const UserContext = createContext(); // Обратите внимание
 export const UserProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [logged, setLogged] = useState(0);
+  const [promocode, setPromocode] = useState("");
   function logIn(userName) {
     setName(userName);
   }
   function logOut() {
     setName("");
   }
+
   return (
     <UserContext.Provider
-      value={{ name, logIn, logged: name.length > 0, logOut }}
+      value={{
+        name,
+        logIn,
+        logged: name.length > 0,
+        logOut,
+        promocode,
+        setPromocode,
+      }}
     >
       {children}
     </UserContext.Provider>
