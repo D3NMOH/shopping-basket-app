@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
 import { Image } from "expo-image";
 import { globalStyles } from "../../../styles/global";
@@ -51,24 +51,20 @@ export default function BookDetails({ route }) {
   // }
 
   return (
-    <View style={globalStyles.container}>
+    <ScrollView style={globalStyles.container}>
       <Text style={globalStyles.heading}>{product.title}</Text>
 
       <View>
         <Image source={product.thumbnail} style={globalStyles.thumbnail} />
-        <Text style={globalStyles.author}>Author: {product.author}</Text>
-        <Text style={globalStyles.year}>
-          Year of publishing: {product.publishYear}
-        </Text>
+        <Text style={globalStyles.author}>{product.description}</Text>
+        <Text style={globalStyles.year}>Noch was geschrieben</Text>
         <Text style={globalStyles.rentDuration}>
-          You can rent the book for {product.rentDuration} days
+          There are still {product.stock} pcs available
         </Text>
         <View style={[globalStyles.booksLeft]}>
-          <Text style={globalStyles.booksLeftText}>
-            There are still {product.stock} books left
-          </Text>
+          <Text style={globalStyles.booksLeftText}>Add to cart</Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }

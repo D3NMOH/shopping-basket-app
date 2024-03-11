@@ -1,12 +1,18 @@
 import { StyleSheet } from "react-native";
 import { COLORS } from "./constants";
 import { cloneElement } from "react";
+import { Platform } from "react-native";
 
 export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
+    padding: 20,
     backgroundColor: COLORS.dark,
-    padding: 12,
+  },
+  modalContainer: {
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? 50 : 0,
+    backgroundColor: COLORS.dark,
   },
   text: {
     fontSize: 20,
@@ -25,11 +31,11 @@ export const globalStyles = StyleSheet.create({
     fontWeight: "700",
   },
   loginbox: {
+    padding: 10,
     alignSelf: "center",
-    padding: 50,
-    margin: 50,
+    margin: 20,
     flex: 1,
-    width: "80%",
+    width: "100%",
     backgroundColor: COLORS.primary,
     borderRadius: 15,
     gap: 10,
@@ -42,6 +48,8 @@ export const globalStyles = StyleSheet.create({
     fontSize: 23,
     color: COLORS.dark,
     borderRadius: 7,
+    width: "80%",
+    alignSelf: "center",
   },
   loginbutton: {
     margin: 10,
@@ -75,16 +83,34 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "center",
     right: 20,
     top: 25,
-    paddingRight: "25",
     backgroundColor: COLORS.secondary,
     borderRadius: 7,
-    padding: 10,
+    paddingHorizontal: 5,
   },
   numCopies: {
     fontSize: 20,
     color: "#fff",
     textAlign: "center",
-    fontWeight: 900,
+    fontWeight: "900",
+  },
+  oldPriceContainer: {
+    flex: 1,
+    alignItems: "center",
+    position: "absolute",
+    justifyContent: "center",
+    right: 20,
+    top: 70,
+    paddingRight: "25",
+
+    borderRadius: 7,
+    padding: 10,
+  },
+  oldPrice: {
+    fontSize: 20,
+    color: "#999",
+    textAlign: "center",
+    fontWeight: "500",
+    textDecorationLine: "line-through",
   },
   title: { margin: 10, fontSize: 30, color: COLORS.primary, fontWeight: "900" },
   author: {
@@ -123,13 +149,6 @@ export const globalStyles = StyleSheet.create({
     borderRadius: 10,
     alignSelf: "center",
     margin: 20,
-    shadowColor: "#fff",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 6.27,
     elevation: 10,
   },
   thumbSmall: {
@@ -137,13 +156,6 @@ export const globalStyles = StyleSheet.create({
     height: 130,
     margin: 20,
     borderRadius: 10,
-    shadowColor: "#fff",
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.5,
-    shadowRadius: 6.27,
     elevation: 10,
     overflow: "visible",
   },
@@ -156,12 +168,40 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
   },
   cameraContainer: {
-    flex: 1,
+    flex: 0.9,
     borderRadius: 7,
     overflow: "hidden",
+    gap: 1,
     height: 500,
   },
   camera: { flex: 1 },
-  buttonContainer: {},
-  button: {},
+  promoContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 20,
+  },
+  promoblock: {
+    backgroundColor: COLORS.secondary,
+    borderRadius: 7,
+  },
+  promocode: {
+    color: "#fff",
+    fontSize: 25,
+    margin: 5,
+    textAlign: "center",
+    fontWeight: "900",
+  },
+  promotext: { fontSize: 15, margin: 5, textAlign: "center" },
+  buttonContainer: { overflow: "hidden" },
+  button: {
+    backgroundColor: "#fff",
+    borderBottomEndRadius: 20,
+    height: 40,
+    width: 40,
+    color: "#000",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  windowButton: {},
 });

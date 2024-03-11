@@ -1,7 +1,7 @@
 import { Tabs, Link } from "expo-router";
 import React, { useContext } from "react";
 import { Pressable, Text, View } from "react-native";
-import { FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6, FontAwesome } from "@expo/vector-icons";
 import { COLORS } from "../../styles/constants";
 import { UserContext } from "../../context/UserProvider";
 
@@ -72,6 +72,25 @@ export default function MainTabs() {
                       <FontAwesome6
                         name="user"
                         size={24}
+                        color={COLORS.primary}
+                      />
+                    </View>
+                  </Pressable>
+                </Link>
+              </View>
+            );
+          },
+          headerLeft: () => {
+            return logged === false ? (
+              <View></View>
+            ) : (
+              <View>
+                <Link href="/Camera" asChild>
+                  <Pressable style={{ flexDirection: "row" }}>
+                    <View style={{ marginHorizontal: 15 }}>
+                      <FontAwesome
+                        name="qrcode"
+                        size={35}
                         color={COLORS.primary}
                       />
                     </View>
