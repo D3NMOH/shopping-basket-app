@@ -155,7 +155,13 @@ export const globalStyles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
   },
-  camera: { flex: 1, borderRadius: 7 },
+  cameraContainer: {
+    flex: 1,
+    borderRadius: 7,
+    overflow: "hidden",
+    height: 500,
+  },
+  camera: { flex: 1 },
   buttonContainer: {},
   button: {},
 });
