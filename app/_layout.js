@@ -25,6 +25,7 @@ export default function RootStack() {
       >
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="Login" options={{ presentation: "modal" }} />
+        <Stack.Screen name="Camera" options={{ presentation: "modal" }} />
       </Stack>
       <StatusBar style="light" />
     </UserProvider>

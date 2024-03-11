@@ -90,14 +90,26 @@ export default function Books() {
                         {item.publishYear}
                       </Text>
                     </View>
-                    <View style={globalStyles.bookboxRight}>
-                      <Text style={globalStyles.numCopies}>
-                        {promocode.data === "PROMO10"
-                          ? Math.round(item.price * 0.9 * 10) / 10
-                          : item.price}
-                        €
-                      </Text>
-                    </View>
+                    {promocode.data === "PROMO10" ? (
+                      <>
+                        <View style={globalStyles.oldPriceContainer}>
+                          <Text style={globalStyles.oldPrice}>
+                            {item.price}€
+                          </Text>
+                        </View>
+                        <View style={globalStyles.bookboxRight}>
+                          <Text style={globalStyles.numCopies}>
+                            {Math.round(item.price * 0.9 * 10) / 10}€
+                          </Text>
+                        </View>
+                      </>
+                    ) : (
+                      <View style={globalStyles.bookboxRight}>
+                        <Text style={globalStyles.numCopies}>
+                          {item.price}€
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 </Pressable>
               </Link>
