@@ -35,7 +35,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node }}
-        cache: yarn
+        cache: npm
 
     - name: 🏗 Setup Expo and EAS
       uses: expo/expo-github-action@v7
@@ -45,7 +45,7 @@ jobs:
         eas-version: latest
 
     - name: 🏗 Setup EAS local builds
-      run: yarn global add eas-cli-local-build-plugin
+      run: npm -g i eas-cli-local-build-plugin
 
     - name: 📦 Install dependencies
       run: npm install
