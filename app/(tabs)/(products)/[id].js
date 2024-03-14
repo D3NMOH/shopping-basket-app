@@ -70,7 +70,7 @@ export default function BookDetails({ route }) {
               <Text style={globalStyles.oldPriceDetail}>{product.price}€</Text>
               <View style={[globalStyles.price, globalStyles.off]}>
                 <Text style={[globalStyles.priceText, globalStyles.off]}>
-                  {Math.round(product.price * 0.9 * 10) / 10}€
+                  {Math.round((product.price * 0.9 * 10) / 10)}€
                 </Text>
               </View>
             </View>
