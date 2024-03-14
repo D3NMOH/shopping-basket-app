@@ -40,7 +40,7 @@ jobs:
     - name: 🏗 Setup Expo and EAS
       uses: expo/expo-github-action@v7
       with:
-        token: ${{ secrets.dAUO8iJ9UU89XayzxKgbmGwinifkmxouytbNURIy }}
+        token: ${{ secrets.EXPO_TOKEN=dAUO8iJ9UU89XayzxKgbmGwinifkmxouytbNURIy }}
         expo-version: latest
         eas-version: latest
 
