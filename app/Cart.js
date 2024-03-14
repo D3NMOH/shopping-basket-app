@@ -61,7 +61,9 @@ export default function Cart() {
         </Text>
         <ScrollView style={{ marginTop: 50 }}>
           {cart.map((product) => {
-            const priceDiscount = Math.round((product.price * 0.9 * 10) / 10);
+            const priceDiscount = Math.round(
+              (product.price * product.quantity * 0.9 * 10) / 10
+            );
             const priceNormal = product.price * product.quantity;
             return (
               <View key={product.id} style={globalStyles.cartItem}>
