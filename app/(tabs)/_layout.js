@@ -33,6 +33,7 @@ export default function MainTabs() {
           tabBarIcon: ({ color }) => {
             return <FontAwesome6 name="book-open" size={24} color={color} />;
           },
+
           headerRight: () => {
             return logged === false ? (
               <View>
@@ -85,11 +86,11 @@ export default function MainTabs() {
               <View></View>
             ) : (
               <View>
-                <Link href="/Camera" asChild>
+                <Link href="/Cart" asChild>
                   <Pressable style={{ flexDirection: "row" }}>
                     <View style={{ marginHorizontal: 15 }}>
                       <FontAwesome
-                        name="qrcode"
+                        name="shopping-cart"
                         size={35}
                         color={COLORS.primary}
                       />

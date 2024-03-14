@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { globalStyles } from "../styles/global";
 import { UserContext } from "../context/UserProvider";
-import { Link, useNavigation } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { COLORS } from "../styles/constants";
 import {
   CameraView,
@@ -23,6 +23,7 @@ export default function Camera() {
   const { setPromocode, promocode } = useContext(UserContext);
   const [facing, setFacing] = useState("back");
   const [permission, requestPermission] = useCameraPermissions();
+  const router = useRouter();
   function toggleCameraFacing() {
     setFacing((current) => (current === "back" ? "front" : "back"));
   }
@@ -60,8 +61,8 @@ export default function Camera() {
   return (
     <View style={globalStyles.modalContainer}>
       <View style={globalStyles.loginbox}>
-        <Link
-          href={"/(products)"}
+        <Pressable
+          onPress={() => router.back()}
           style={{
             position: "absolute",
             top: 0,
@@ -81,7 +82,7 @@ export default function Camera() {
           >
             <FontAwesome name="close" size={24} color="#fff" />
           </View>
-        </Link>
+        </Pressable>
         {promocode === "" ? (
           ""
         ) : (

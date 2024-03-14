@@ -6,6 +6,7 @@ export const UserProvider = ({ children }) => {
   const [name, setName] = useState("");
   const [logged, setLogged] = useState(0);
   const [promocode, setPromocode] = useState("");
+  const [items, setItems] = useState([]);
   function logIn(userName) {
     setName(userName);
   }
@@ -22,6 +23,8 @@ export const UserProvider = ({ children }) => {
         logOut,
         promocode,
         setPromocode,
+        items,
+        setItems,
       }}
     >
       {children}
