@@ -100,7 +100,7 @@ export default function Books() {
                         </View>
                         <View style={globalStyles.bookboxRight}>
                           <Text style={globalStyles.numCopies}>
-                            {Math.round(item.price * 0.9 * 10) / 10}€
+                            {Math.round((item.price * 0.9 * 10) / 10)}€
                           </Text>
                         </View>
                       </>
