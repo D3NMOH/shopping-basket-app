@@ -20,6 +20,10 @@ export default function Cart() {
     useContext(CartContext);
 
   const router = useRouter();
+  const totalCost = cart.reduce(
+    (sum, product) => sum + product.price * product.quantity,
+    0
+  );
 
   return (
     <View style={globalStyles.modalContainer}>
@@ -158,9 +162,24 @@ export default function Cart() {
                   alignItems: "center",
                 }}
               >
-                <Text style={{ fontSize: 20 }}>
-                  Items in cart: {cart.length}
-                </Text>
+                <View
+                  style={{
+                    backgroundColor:
+                      promocode.data === "PROMO10" ? COLORS.secondary : "#000",
+                    padding: 7,
+                    borderRadius: 7,
+                  }}
+                >
+                  <Text
+                    style={{ fontSize: 20, color: "#fff", fontWeight: "800" }}
+                  >
+                    Total: {"  "}
+                    {promocode.data === "PROMO10"
+                      ? Math.round(totalCost * 0.9)
+                      : totalCost}
+                    €
+                  </Text>
+                </View>
                 <Pressable
                   style={[
                     globalStyles.qtyButton,
@@ -173,7 +192,6 @@ export default function Cart() {
                     },
                   ]}
                 >
-                  <FontAwesome6 name="wallet" size={24} color="#fff" />
                   <Text
                     style={{
                       color: "#fff",
@@ -184,6 +202,7 @@ export default function Cart() {
                   >
                     Checkout
                   </Text>
+                  <FontAwesome6 name="wallet" size={24} color="#fff" />
                 </Pressable>
               </View>
               <Pressable
@@ -197,21 +216,26 @@ export default function Cart() {
                     paddingHorizontal: 20,
                     marginTop: 20,
                     marginBottom: 20,
+                    backgroundColor: promocode === "" ? "#000" : "#aaa",
                   },
                 ]}
-                onPress={() => router.push("/Camera")}
+                onPress={() => (promocode === "" ? router.push("/Camera") : "")}
               >
-                <FontAwesome name="qrcode" size={24} color="#fff" />
                 <Text
                   style={{
-                    color: "#fff",
+                    color: promocode === "" ? "#fff" : "#888",
                     textTransform: "uppercase",
                     fontSize: 20,
                     fontWeight: 600,
                   }}
                 >
-                  Apply promocode
+                  {promocode === "" ? "Apply promocode" : "Promocode applied"}
                 </Text>
+                <FontAwesome
+                  name={promocode === "" ? "qrcode" : "check"}
+                  size={24}
+                  color={promocode === "" ? "#fff" : "#888"}
+                />
               </Pressable>
             </View>
           )}

@@ -93,11 +93,28 @@ export default function BookDetails({ route }) {
           <FontAwesome name="shopping-cart" size={35} color="#000" />
         </Pressable>
         <Pressable
-          style={[globalStyles.booksLeft]}
-          onPress={() => router.push("/Camera")}
+          style={[
+            globalStyles.booksLeft,
+            { backgroundColor: promocode === "" ? COLORS.primary : "#aaa" },
+          ]}
+          onPress={() => (promocode === "" ? router.push("/Camera") : "")}
         >
-          <Text style={globalStyles.booksLeftText}>Apply promocode!</Text>
-          <FontAwesome name="qrcode" size={35} color="#000" />
+          <Text
+            style={[
+              globalStyles.booksLeftText,
+              {
+                color: promocode === "" ? "#000" : "#888",
+                backgroundColor: promocode === "" ? COLORS.primary : "#aaa",
+              },
+            ]}
+          >
+            {promocode === "" ? "Apply promocode!" : "Promocode applied"}
+          </Text>
+          <FontAwesome
+            name={promocode === "" ? "qrcode" : "check"}
+            size={35}
+            color={promocode === "" ? "#000" : "#888"}
+          />
         </Pressable>
       </View>
     </ScrollView>
