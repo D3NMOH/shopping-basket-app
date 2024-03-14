@@ -36,12 +36,7 @@
           "recordAudioAndroid": true
         }
       ],
-      "expo-font",
-      {
-        "fonts": [
-          "node_modules/@expo-google-fonts/press-start-2p/PressStart2P_400Regular"
-        ]
-      }
+      "expo-font"
     ],
     "extra": {
       "router": {
