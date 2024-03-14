@@ -1,15 +1,19 @@
-import { View, Text, ScrollView } from "react-native";
-import { useState, useEffect } from "react";
+import { View, Text, ScrollView, Pressable } from "react-native";
+import { useState, useEffect, useContext } from "react";
 import { Image } from "expo-image";
 import { globalStyles } from "../../../styles/global";
 import { goods } from "../../../data/goods";
-import { useNavigation, useLocalSearchParams } from "expo-router";
+import { useNavigation, useLocalSearchParams, router } from "expo-router";
 import axios from "axios";
+import { UserContext } from "../../../context/UserProvider";
+import { FontAwesome } from "@expo/vector-icons";
+import { COLORS } from "../../../styles/constants";
+import { CartContext } from "../../../context/context";
 
 export default function BookDetails({ route }) {
+  const { addToCart } = useContext(CartContext);
   const { id } = useLocalSearchParams();
-  const [book, setBook] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { promocode, items, setItems } = useContext(UserContext);
   const product = goods.find((product) => product.id === parseInt(id));
 
   // useEffect(() => {
@@ -51,19 +55,50 @@ export default function BookDetails({ route }) {
   // }
 
   return (
-    <ScrollView style={globalStyles.container}>
+    <ScrollView style={globalStyles.productPage}>
       <Text style={globalStyles.heading}>{product.title}</Text>
 
       <View>
-        <Image source={product.thumbnail} style={globalStyles.thumbnail} />
+        <Image
+          source={product.thumbnail}
+          contentFit="contain"
+          style={globalStyles.thumbnail}
+        />
+        <View>
+          {promocode.data === "PROMO10" ? (
+            <View style={globalStyles.priceContainer}>
+              <Text style={globalStyles.oldPriceDetail}>{product.price}€</Text>
+              <View style={[globalStyles.price, globalStyles.off]}>
+                <Text style={[globalStyles.priceText, globalStyles.off]}>
+                  {Math.round(product.price * 0.9 * 10) / 10}€
+                </Text>
+              </View>
+            </View>
+          ) : (
+            <View style={globalStyles.price}>
+              <Text style={globalStyles.priceText}>{product.price}€</Text>
+            </View>
+          )}
+        </View>
         <Text style={globalStyles.author}>{product.description}</Text>
-        <Text style={globalStyles.year}>Noch was geschrieben</Text>
+
         <Text style={globalStyles.rentDuration}>
           There are still {product.stock} pcs available
         </Text>
-        <View style={[globalStyles.booksLeft]}>
+        <Pressable
+          style={[globalStyles.booksLeft]}
+          onPress={() => addToCart(product)}
+        >
           <Text style={globalStyles.booksLeftText}>Add to cart</Text>
-        </View>
+          <FontAwesome name="shopping-cart" size={35} color="#000" />
+        </Pressable>
+        <Pressable
+          style={[globalStyles.booksLeft]}
+          onPress={() => router.push("/Camera")}
+        >
+          <Text style={globalStyles.booksLeftText}>Apply promocode!</Text>
+          <FontAwesome name="qrcode" size={35} color="#000" />
+        </Pressable>
       </View>
     </ScrollView>
   );

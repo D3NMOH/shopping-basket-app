@@ -7,6 +7,7 @@ import { goods } from "../../../data/goods";
 import { Link } from "expo-router";
 import { UserContext } from "../../../context/UserProvider";
 import axios from "axios";
+import { COLORS } from "../../../styles/constants";
 
 export default function Books() {
   const { name, logged, promocode } = useContext(UserContext);
@@ -104,8 +105,15 @@ export default function Books() {
                         </View>
                       </>
                     ) : (
-                      <View style={globalStyles.bookboxRight}>
-                        <Text style={globalStyles.numCopies}>
+                      <View
+                        style={[
+                          globalStyles.bookboxRight,
+                          { backgroundColor: COLORS.primary },
+                        ]}
+                      >
+                        <Text
+                          style={[globalStyles.numCopies, { color: "#000" }]}
+                        >
                           {item.price}€
                         </Text>
                       </View>

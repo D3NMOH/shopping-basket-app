@@ -3,6 +3,7 @@ import { UserProvider } from "../context/UserProvider";
 import { Platform } from "react-native";
 import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "expo-status-bar";
+import { CartProvider } from "../context/context";
 {
   Platform.OS === "android" ? NavigationBar.setPositionAsync("absolute") : "";
 }
@@ -18,15 +19,18 @@ import { StatusBar } from "expo-status-bar";
 export default function RootStack() {
   return (
     <UserProvider>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="Login" options={{ presentation: "modal" }} />
-        <Stack.Screen name="Camera" options={{ presentation: "modal" }} />
-      </Stack>
+      <CartProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="Login" options={{ presentation: "modal" }} />
+          <Stack.Screen name="Camera" options={{ presentation: "modal" }} />
+          <Stack.Screen name="Cart" options={{ presentation: "modal" }} />
+        </Stack>
+      </CartProvider>
       <StatusBar style="light" />
     </UserProvider>
   );

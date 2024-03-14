@@ -9,21 +9,18 @@ import {
 } from "react-native";
 import { globalStyles } from "../styles/global";
 import { UserContext } from "../context/UserProvider";
-import { Link, useNavigation } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import { COLORS } from "../styles/constants";
-import {
-  CameraView,
-  useCameraPermissions,
-  BarcodeScanningResult,
-} from "expo-camera/next";
-import { Ionicons, FontAwesome } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import avatar from "../assets/avatar.jpeg";
+import { Image } from "expo-image";
 
 export default function Login() {
   const navigation = useNavigation();
   const [userName, setUserName] = useState("");
   const { name, logIn, logged, logOut, setPromocode, promocode } =
     useContext(UserContext);
-
+  const router = useRouter();
   const handleLogin = () => {
     console.log(`Username: ${name}`);
     logIn(userName);
@@ -38,8 +35,8 @@ export default function Login() {
   return (
     <View style={globalStyles.modalContainer}>
       <View style={globalStyles.loginbox}>
-        <Link
-          href={"/(products)"}
+        <Pressable
+          onPress={() => router.back()}
           style={{
             position: "absolute",
             top: 0,
@@ -59,13 +56,27 @@ export default function Login() {
           >
             <FontAwesome name="close" size={24} color="#fff" />
           </View>
-        </Link>
+        </Pressable>
         {logged === false ? (
-          <Text style={[globalStyles.heading, { color: "#fff" }]}>Login</Text>
+          <Text style={[globalStyles.heading, { color: "#000" }]}>Login</Text>
         ) : (
-          <Text style={[globalStyles.heading, { color: "#fff" }]}>
-            Hi, {name}
-          </Text>
+          <View
+            style={{ justifyContent: "center", alignItems: "center", gap: 20 }}
+          >
+            <Text style={[globalStyles.heading, { color: "#000" }]}>
+              Hi, {name}
+            </Text>
+            <Image
+              source={avatar}
+              style={{
+                borderRadius: 30,
+                width: 300,
+                height: 300,
+                alignSelf: "center",
+                margin: "auto",
+              }}
+            />
+          </View>
         )}
         {logged === false ? (
           <TextInput
