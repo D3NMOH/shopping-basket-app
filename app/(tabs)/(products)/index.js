@@ -71,7 +71,7 @@ export default function Books() {
             return (
               <Link
                 key={item.id}
-                href={logged ? `(products)/${item.id}` : "/Login"}
+                href={`(products)/${item.id}`}
                 asChild
                 style={globalStyles.bookbox}
               >
@@ -86,10 +86,6 @@ export default function Books() {
                     </View>
                     <View style={{ flex: 1 }}>
                       <Text style={globalStyles.text}>{item.title}</Text>
-                      <Text style={globalStyles.smalltext}>{item.author}</Text>
-                      <Text style={globalStyles.smalltext}>
-                        {item.publishYear}
-                      </Text>
                     </View>
                     {promocode.data === "PROMO10" ? (
                       <>
