@@ -1,66 +1,44 @@
-name: Build App
+name: Build and Release APK
 on:
-  workflow_dispatch:
-    inputs:
-      os:
-        type: choice
-        description: OS to build on. Ubuntu is faster, MacOS supports iOS builds, Windows is unsupported
-        options:
-          - macos-latest
-          - ubuntu-latest
-      platform:
-        type: choice
-        description: Platform to build for
-        options:
-          - android
-          - ios
-      profile:
-        type: choice
-        description: Build profile to use
-        options:
-          - development
-          - preview
-          - production
+  push:
+    branches:
+      - main
+
 jobs:
   build:
-    runs-on: ${{ github.event.inputs.os }}
-    strategy:
-      matrix:
-        node: [16.x]
+    runs-on: ubuntu-latest
     steps:
-    - name: 🏗 Setup repo
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: 🏗 Setup Node
-      uses: actions/setup-node@v2
-      with:
-        node-version: ${{ matrix.node }}
-        cache: npm
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 21.6.2
 
-    - name: 🏗 Setup Expo and EAS
-      uses: expo/expo-github-action@v7
-      with:
-        token: ${{ secrets.EXPO_TOKEN }}
-        expo-version: latest
-        eas-version: latest
+      - name: Install dependencies
+        run: npm ci
 
-    - name: 🏗 Setup EAS local builds
-      run: npm -g i eas-cli-local-build-plugin
+      - name: Install Expo CLI
+        run: npm install -g expo-cli
 
-    - name: 📦 Install dependencies
-      run: npm install
+      - name: Log in to Expo
+        run: expo login --non-interactive --access-token ${{ secrets.EXPO_TOKEN }}
 
-    - name: 👷 Build app
-      run: |
-        eas build --local \
-          --non-interactive \
-          --output=./app-build \
-          --platform=${{ github.event.inputs.platform }} \
-          --profile=${{ github.event.inputs.profile }}
+      - name: Build standalone APK
+        run: expo build:android -t apk --local
 
-    - name: 📱 Upload binary
-      uses: actions/upload-artifact@v2
-      with:
-        name: app-${{ github.event.inputs.platform }}
-        path: app-build
-      
+      - name: Download APK
+        uses: wei/pull@v1
+        with:
+          repo: expo/expo
+          path: './artifacts'
+          filter: '*.apk'
+
+      - name: Upload APK to GitHub Releases
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.repository.releases_url }}
+          asset_path: './artifacts/app.apk'
+          asset_name: 'app.apk'
+          asset_content_type: 'application/vnd.android.package-archive'
