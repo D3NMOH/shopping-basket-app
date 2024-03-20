@@ -148,6 +148,27 @@ export default function Login() {
                     width: "80%",
                   }}
                 >
+                  <TouchableOpacity
+                    onPress={() => router.back()}
+                    style={{
+                      position: "absolute",
+                      marginTop: 0,
+                      right: 0,
+                    }}
+                  >
+                    <View
+                      style={{
+                        textAlign: "right",
+                        backgroundColor: "#00000000",
+                        alignSelf: "flex-end",
+                        color: "#000",
+                        paddingHorizontal: 20,
+                        paddingVertical: 10,
+                      }}
+                    >
+                      <FontAwesome name="close" size={24} color="#fff" />
+                    </View>
+                  </TouchableOpacity>
                   <ScrollView>
                     {userList.map((user) => (
                       <TouchableOpacity
