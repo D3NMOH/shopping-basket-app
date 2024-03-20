@@ -6,8 +6,8 @@ import { COLORS } from "../../styles/constants";
 import { UserContext } from "../../context/UserProvider";
 
 export default function MainTabs() {
-  const { name, logged } = useContext(UserContext);
-  console.log(name, logged);
+  const { userName, logged } = useContext(UserContext);
+  console.log(userName, logged);
   return (
     <Tabs
       screenOptions={{
@@ -67,7 +67,7 @@ export default function MainTabs() {
                         fontSize: 20,
                       }}
                     >
-                      {name}
+                      {userName}
                     </Text>
                     <View style={{ marginHorizontal: 15 }}>
                       <FontAwesome6

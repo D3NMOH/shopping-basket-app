@@ -120,7 +120,7 @@ export const globalStyles = StyleSheet.create({
   title: { margin: 10, fontSize: 30, color: COLORS.primary, fontWeight: "900" },
   author: {
     margin: 10,
-    fontSize: 30,
+    fontSize: 25,
     color: "#fff",
     fontWeight: "300",
   },
@@ -169,6 +169,14 @@ export const globalStyles = StyleSheet.create({
   },
   thumbSmallContainer: {
     borderRadius: 10,
+  },
+  thumbCart: {
+    maxWidth: 80,
+    height: 130,
+    margin: 20,
+    borderRadius: 10,
+    elevation: 10,
+    overflow: "visible",
   },
   itemContainer: {
     flex: 1,

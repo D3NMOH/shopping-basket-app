@@ -1,5 +1,5 @@
 // Login.js
-import React, { cloneElement, useContext, useState } from "react";
+import React, { cloneElement, useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -21,6 +21,7 @@ import { Ionicons, FontAwesome } from "@expo/vector-icons";
 export default function Camera() {
   const navigation = useNavigation();
   const { setPromocode, promocode } = useContext(UserContext);
+  const [manCode, setManCode] = useState("");
   const [facing, setFacing] = useState("back");
   const [permission, requestPermission] = useCameraPermissions();
   const router = useRouter();
@@ -54,8 +55,11 @@ export default function Camera() {
   }
 
   const handlePromoCode = (code) => {
-    setPromocode(code);
-    console.log(promocode.data);
+    setPromocode(code.data);
+  };
+
+  const handlePromoManual = () => {
+    setPromocode(manCode);
   };
 
   return (
@@ -84,12 +88,25 @@ export default function Camera() {
           </View>
         </Pressable>
         {promocode === "" ? (
-          ""
+          <View style={{ paddingTop: 40 }}>
+            <TextInput
+              style={globalStyles.inputbox}
+              placeholder="Promocode"
+              onChangeText={(text) => setManCode(text)}
+              value={manCode}
+            />
+            <Pressable
+              style={globalStyles.loginbutton}
+              onPress={handlePromoManual}
+            >
+              <Text style={globalStyles.loginButtonText}>Apply</Text>
+            </Pressable>
+          </View>
         ) : (
           <View style={globalStyles.promoContainer}>
             <Text style={globalStyles.promotext}>Promocode:</Text>
             <View style={globalStyles.promoblock}>
-              <Text style={globalStyles.promocode}>{promocode.data}</Text>
+              <Text style={globalStyles.promocode}>{promocode}</Text>
             </View>
           </View>
         )}

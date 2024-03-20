@@ -1,4 +1,3 @@
-// Books.js
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, ScrollView, Pressable } from "react-native";
 import { Image } from "expo-image";
@@ -6,119 +5,106 @@ import { globalStyles } from "../../../styles/global";
 import { goods } from "../../../data/goods";
 import { Link } from "expo-router";
 import { UserContext } from "../../../context/UserProvider";
-import axios from "axios";
 import { COLORS } from "../../../styles/constants";
 
-export default function Books() {
+export default function ProductList() {
   const { name, logged, promocode } = useContext(UserContext);
-  const [allBooks, setAllBooks] = useState([]);
-  const [userBooks, setUserBooks] = useState([]);
-  const [products, setProducts] = useState([]);
+  const [goods, setGoods] = useState([]);
+  const [pressedButtonId, setPressedButtonId] = useState(null);
 
-  // useEffect(() => {
-  //   async function loadAllBooks() {
-  //     try {
-  //       const response = await axios.get(
-  //         `https://mini-project-library.onrender.com/books`
-  //       );
-  //       console.log("All books:", response.data.data);
-  //       setAllBooks(response.data.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //       alert("Something went wrong! Please try again.");
-  //     }
-  //   }
-  //   loadAllBooks();
-  // }, []);
+  useEffect(() => {
+    fetch("https://shopping-basket-backend-u4xp.onrender.com/products")
+      .then((response) => response.json())
+      .then((data) => setGoods(data.product));
+  }, []);
 
-  // useEffect(() => {
-  //   async function loadUserBooks() {
-  //     try {
-  //       const userResponse = await axios.get(
-  //         `https://mini-project-library.onrender.com/users/${name}`
-  //       );
+  const handlePressIn = (itemId) => {
+    setPressedButtonId(itemId);
+    console.log("Pressed item with id:", itemId);
+    // Дополнительные действия при нажатии
+  };
 
-  //       console.log("User response:", userResponse.data);
-  //       const userBookIds = userResponse.data[0].book.map((book) => book._id);
-
-  //       console.log("User book IDs:", userBookIds);
-
-  //       console.log("All books:", allBooks);
-
-  //       // Проверка наличия книг у пользователя
-  //       const userBooksData = allBooks.filter((book) =>
-  //         userBookIds.includes(book._id)
-  //       );
-
-  //       console.log("Filtered user books:", userBooksData);
-  //       setUserBooks(userBooksData);
-  //     } catch (error) {
-  //       console.log(error);
-  //       alert("Something went wrong! Please try again.");
-  //     }
-  //   }
-
-  //   if (logged && allBooks.length > 0) {
-  //     loadUserBooks();
-  //   }
-  // }, [name, logged, allBooks]);
+  const handlePressOut = () => {
+    setPressedButtonId(null);
+    console.log("Released item");
+    // Дополнительные действия при отпускании
+  };
 
   return (
     <ScrollView>
       <View style={globalStyles.container}>
         <View>
-          {goods.map((item) => {
-            return (
-              <Link
-                key={item.id}
-                href={`(products)/${item.id}`}
-                asChild
-                style={globalStyles.bookbox}
-              >
-                <Pressable>
-                  <View style={[globalStyles.itemContainer]}>
-                    <View style={globalStyles.thumbSmallContainer}>
-                      <Image
-                        source={{ uri: item.thumbnail }}
-                        style={[globalStyles.thumbSmall]}
-                        contentFit="contain"
-                      />
-                    </View>
-                    <View style={{ flex: 1 }}>
-                      <Text style={globalStyles.text}>{item.title}</Text>
-                    </View>
-                    {promocode.data === "PROMO10" ? (
-                      <>
-                        <View style={globalStyles.oldPriceContainer}>
-                          <Text style={globalStyles.oldPrice}>
-                            {item.price}€
-                          </Text>
-                        </View>
-                        <View style={globalStyles.bookboxRight}>
-                          <Text style={globalStyles.numCopies}>
-                            {Math.round((item.price * 0.9 * 10) / 10)}€
-                          </Text>
-                        </View>
-                      </>
-                    ) : (
+          {goods &&
+            goods.map((item) => {
+              return (
+                <Link key={item._id} href={`(products)/${item._id}`} asChild>
+                  <Pressable
+                    onPressIn={() => handlePressIn(item._id)}
+                    onPressOut={handlePressOut}
+                  >
+                    {({ pressed }) => (
                       <View
                         style={[
-                          globalStyles.bookboxRight,
-                          { backgroundColor: COLORS.primary },
+                          globalStyles.itemContainer,
+                          globalStyles.bookbox,
+                          pressed && { backgroundColor: COLORS.primary },
                         ]}
                       >
-                        <Text
-                          style={[globalStyles.numCopies, { color: "#000" }]}
-                        >
-                          {item.price}€
-                        </Text>
+                        <View style={globalStyles.thumbSmallContainer}>
+                          <Image
+                            source={{ uri: item.thumbnail }}
+                            style={[globalStyles.thumbSmall]}
+                            contentFit="contain"
+                          />
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <Text
+                            style={[
+                              globalStyles.text,
+                              pressed && { color: "#000" },
+                            ]}
+                          >
+                            {item.productName}
+                          </Text>
+                        </View>
+                        {promocode != "" ? (
+                          <>
+                            <View style={globalStyles.oldPriceContainer}>
+                              <Text style={globalStyles.oldPrice}>
+                                {item.price}€
+                              </Text>
+                            </View>
+                            <View style={globalStyles.bookboxRight}>
+                              <Text style={globalStyles.numCopies}>
+                                {Math.round((item.price * 0.9 * 10) / 10)}€
+                              </Text>
+                            </View>
+                          </>
+                        ) : (
+                          <View
+                            style={[
+                              globalStyles.bookboxRight,
+                              { backgroundColor: COLORS.primary },
+                              pressed && { backgroundColor: "#000" },
+                            ]}
+                          >
+                            <Text
+                              style={[
+                                globalStyles.numCopies,
+                                { color: "#000" },
+                                pressed && { color: COLORS.primary },
+                              ]}
+                            >
+                              {item.price}€
+                            </Text>
+                          </View>
+                        )}
                       </View>
                     )}
-                  </View>
-                </Pressable>
-              </Link>
-            );
-          })}
+                  </Pressable>
+                </Link>
+              );
+            })}
         </View>
       </View>
     </ScrollView>

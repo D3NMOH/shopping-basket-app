@@ -1,11 +1,12 @@
 // Login.js
-import React, { cloneElement, useContext, useState } from "react";
+import React, { Component, useContext, useState, useEffect } from "react";
 import {
   View,
   Text,
   TextInput,
   Pressable,
-  TouchableOpacity,
+  ScrollView,
+  Modal,
 } from "react-native";
 import { globalStyles } from "../styles/global";
 import { UserContext } from "../context/UserProvider";
@@ -17,19 +18,34 @@ import { Image } from "expo-image";
 
 export default function Login() {
   const navigation = useNavigation();
-  const [userName, setUserName] = useState("");
-  const { name, logIn, logged, logOut, setPromocode, promocode } =
+  const [name, setName] = useState("");
+  const { userName, logIn, logged, logOut, userId, setUserId, setPromocode } =
     useContext(UserContext);
+  const [userList, setUserList] = useState([]);
   const router = useRouter();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedUserId, setSelectedUserId] = useState(null);
+
   const handleLogin = () => {
-    console.log(`Username: ${name}`);
-    logIn(userName);
-    navigation.navigate("(products)", {}, { replace: true });
+    const selectedUser = userList.find((user) => user._id === selectedUserId);
+    if (selectedUser) {
+      logIn(selectedUser.username, selectedUser._id);
+      navigation.navigate("(products)", {}, { replace: true });
+    }
+    setModalVisible(false);
   };
+
+  useEffect(() => {
+    fetch("https://shopping-basket-backend-u4xp.onrender.com/users")
+      .then((response) => response.json())
+      .then((data) => setUserList(data))
+      .catch((error) => console.error("Error fetching users:", error));
+  }, []);
 
   const handleLogout = () => {
     console.log(`Logged out`);
     logOut();
+    setPromocode("");
   };
 
   return (
@@ -64,7 +80,7 @@ export default function Login() {
             style={{ justifyContent: "center", alignItems: "center", gap: 20 }}
           >
             <Text style={[globalStyles.heading, { color: "#000" }]}>
-              Hi, {name}
+              Hi, {userName}
             </Text>
             <Image
               source={avatar}
@@ -79,18 +95,102 @@ export default function Login() {
           </View>
         )}
         {logged === false ? (
-          <TextInput
-            style={globalStyles.inputbox}
-            placeholder="User name"
-            onChangeText={(text) => setUserName(text)}
-            value={userName}
-          />
+          <>
+            {/* <ScrollView>
+              {userList.map((user) => (
+                <Pressable
+                  key={user._id}
+                  onPress={() => {
+                    setUserId(user._id);
+                    setName(user.username);
+                  }}
+                  style={{
+                    paddingVertical: 10,
+                    borderBottomWidth: 1,
+                    borderBottomColor: "#ccc",
+                  }}
+                >
+                  <Text>{user.username}</Text>
+                </Pressable>
+              ))}
+            </ScrollView> */}
+            <Pressable onPress={() => setModalVisible(true)}>
+              <Text
+                style={{
+                  paddingVertical: 10,
+                  textAlign: "center",
+                  fontSize: 20,
+                  borderRadius: 7,
+                  borderWidth: 1,
+                  borderColor: "#000",
+                }}
+              >
+                {selectedUserId
+                  ? userList.find((user) => user._id === selectedUserId)
+                      .username
+                  : "Select user"}
+              </Text>
+            </Pressable>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(false);
+              }}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "#00000000",
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: "#000",
+                    padding: 20,
+                    borderRadius: 10,
+                    width: "80%",
+                  }}
+                >
+                  <ScrollView>
+                    {userList.map((user) => (
+                      <Pressable
+                        key={user._id}
+                        onPress={() => {
+                          setSelectedUserId(user._id);
+                          setModalVisible(false);
+                        }}
+                        style={{
+                          paddingVertical: 10,
+                          borderBottomWidth: 0.3,
+                          borderBottomColor: "#ffffff44",
+                        }}
+                      >
+                        <Text style={{ textAlign: "center", color: "#fff" }}>
+                          {user.username}
+                        </Text>
+                      </Pressable>
+                    ))}
+                  </ScrollView>
+                </View>
+              </View>
+            </Modal>
+            {/* <TextInput
+              style={globalStyles.inputbox}
+              placeholder="User name"
+              onChangeText={(text) => setName(text)}
+              value={name}
+            /> */}
+          </>
         ) : (
           ""
         )}
         {logged === false ? (
           <Pressable style={globalStyles.loginbutton} onPress={handleLogin}>
-            <Text style={globalStyles.loginButtonText}>Submit</Text>
+            <Text style={globalStyles.loginButtonText}>Login</Text>
           </Pressable>
         ) : (
           <Pressable style={globalStyles.loginbutton} onPress={handleLogout}>
