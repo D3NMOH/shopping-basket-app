@@ -1,13 +1,6 @@
 // Login.js
-import React, { Component, useContext, useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  ScrollView,
-  Modal,
-} from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, ScrollView, Modal } from "react-native";
 import { globalStyles } from "../styles/global";
 import { UserContext } from "../context/UserProvider";
 import { Link, useNavigation, useRouter } from "expo-router";
@@ -51,7 +44,7 @@ export default function Login() {
   return (
     <View style={globalStyles.modalContainer}>
       <View style={globalStyles.loginbox}>
-        <Pressable
+        <TouchableOpacity
           onPress={() => router.back()}
           style={{
             position: "absolute",
@@ -72,7 +65,7 @@ export default function Login() {
           >
             <FontAwesome name="close" size={24} color="#fff" />
           </View>
-        </Pressable>
+        </TouchableOpacity>
         {logged === false ? (
           <Text style={[globalStyles.heading, { color: "#000" }]}>Login</Text>
         ) : (
@@ -114,7 +107,7 @@ export default function Login() {
                 </Pressable>
               ))}
             </ScrollView> */}
-            <Pressable onPress={() => setModalVisible(true)}>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
               <Text
                 style={{
                   paddingVertical: 10,
@@ -130,7 +123,7 @@ export default function Login() {
                       .username
                   : "Select user"}
               </Text>
-            </Pressable>
+            </TouchableOpacity>
             <Modal
               animationType="slide"
               transparent={true}
@@ -157,7 +150,7 @@ export default function Login() {
                 >
                   <ScrollView>
                     {userList.map((user) => (
-                      <Pressable
+                      <TouchableOpacity
                         key={user._id}
                         onPress={() => {
                           setSelectedUserId(user._id);
@@ -172,7 +165,7 @@ export default function Login() {
                         <Text style={{ textAlign: "center", color: "#fff" }}>
                           {user.username}
                         </Text>
-                      </Pressable>
+                      </TouchableOpacity>
                     ))}
                   </ScrollView>
                 </View>
@@ -189,13 +182,19 @@ export default function Login() {
           ""
         )}
         {logged === false ? (
-          <Pressable style={globalStyles.loginbutton} onPress={handleLogin}>
+          <TouchableOpacity
+            style={globalStyles.loginbutton}
+            onPress={handleLogin}
+          >
             <Text style={globalStyles.loginButtonText}>Login</Text>
-          </Pressable>
+          </TouchableOpacity>
         ) : (
-          <Pressable style={globalStyles.loginbutton} onPress={handleLogout}>
+          <TouchableOpacity
+            style={globalStyles.loginbutton}
+            onPress={handleLogout}
+          >
             <Text style={globalStyles.loginButtonText}>Logout</Text>
-          </Pressable>
+          </TouchableOpacity>
         )}
       </View>
     </View>
