@@ -20,14 +20,12 @@ export default function ProductList() {
 
   const handlePressIn = (itemId) => {
     setPressedButtonId(itemId);
-    console.log("Pressed item with id:", itemId);
-    // Дополнительные действия при нажатии
+    // console.log("Pressed item with id:", itemId);
   };
 
   const handlePressOut = () => {
     setPressedButtonId(null);
-    console.log("Released item");
-    // Дополнительные действия при отпускании
+    // console.log("Released item");
   };
 
   return (

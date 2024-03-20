@@ -208,7 +208,7 @@ export default function Cart() {
             })}
           {!products ? (
             ""
-          ) : (
+          ) : products.length > 0 ? (
             <View>
               <View
                 style={{
@@ -321,6 +321,10 @@ export default function Cart() {
                 />
               </TouchableOpacity>
             </View>
+          ) : (
+            <Text style={{ fontSize: 25, textAlign: "center", marginTop: 200 }}>
+              Your cart is empty!
+            </Text>
           )}
         </ScrollView>
       </View>
